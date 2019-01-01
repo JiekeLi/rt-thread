@@ -1114,10 +1114,10 @@ rt_err_t rt_hw_serial_register(struct rt_serial_device *serial,
     device->rx_indicate = RT_NULL;
     device->tx_complete = RT_NULL;
 
-#ifdef RT_USING_DEVICE_OPS
+#ifdef RT_USING_DEVICE_OPS   //there are two different kinds of operation of device and we select one of them
     device->ops         = &serial_ops;
 #else
-    device->init        = rt_serial_init;
+    device->init        = rt_serial_init; //these operation will call the base operation implemented by user
     device->open        = rt_serial_open;
     device->close       = rt_serial_close;
     device->read        = rt_serial_read;
@@ -1129,7 +1129,7 @@ rt_err_t rt_hw_serial_register(struct rt_serial_device *serial,
     /* register a character device */
     ret = rt_device_register(device, name, flag);
 
-#if defined(RT_USING_POSIX)
+#if defined(RT_USING_POSIX)  //the operation regarding devices as files
     /* set fops */
     device->fops        = &_serial_fops;
 #endif
@@ -1142,7 +1142,7 @@ void rt_hw_serial_isr(struct rt_serial_device *serial, int event)
 {
     switch (event & 0xff)
     {
-        case RT_SERIAL_EVENT_RX_IND:
+        case RT_SERIAL_EVENT_RX_IND:  //handle the event of receiving a data
         {
             int ch = -1;
             rt_base_t level;
@@ -1152,7 +1152,7 @@ void rt_hw_serial_isr(struct rt_serial_device *serial, int event)
             rx_fifo = (struct rt_serial_rx_fifo*)serial->serial_rx;
             RT_ASSERT(rx_fifo != RT_NULL);
 
-            while (1)
+            while (1) //read one char from receive register and put it into a ring buffer
             {
                 ch = serial->ops->getc(serial);
                 if (ch == -1) break;
@@ -1195,7 +1195,7 @@ void rt_hw_serial_isr(struct rt_serial_device *serial, int event)
             }
             break;
         }
-        case RT_SERIAL_EVENT_TX_DONE:
+        case RT_SERIAL_EVENT_TX_DONE: //handle the event of the completion of sending a data
         {
             struct rt_serial_tx_fifo* tx_fifo;
 
@@ -1204,7 +1204,7 @@ void rt_hw_serial_isr(struct rt_serial_device *serial, int event)
             break;
         }
 #ifdef RT_SERIAL_USING_DMA
-        case RT_SERIAL_EVENT_TX_DMADONE:
+        case RT_SERIAL_EVENT_TX_DMADONE://handle the event of the completion of sending a data with DMA
         {
             const void *data_ptr;
             rt_size_t data_size;
@@ -1232,7 +1232,7 @@ void rt_hw_serial_isr(struct rt_serial_device *serial, int event)
             }
             break;
         }
-        case RT_SERIAL_EVENT_RX_DMADONE:
+        case RT_SERIAL_EVENT_RX_DMADONE://handle the event of the completion of receiving a data with DMA
         {
             int length;
             rt_base_t level;
