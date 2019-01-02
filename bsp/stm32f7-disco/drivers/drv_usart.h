@@ -10,4 +10,5 @@
 #ifndef __DRV_USART_H__
 #define __DRV_USART_H__
 extern int bsp_usart_hw_init(void);
+#define BSP_USING_UART2
 #endif
