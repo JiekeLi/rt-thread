@@ -69,7 +69,7 @@ typedef enum
   HAL_CAN_STATE_SLEEP_ACTIVE      = 0x04U,  /*!< CAN sleep mode is active            */
   HAL_CAN_STATE_ERROR             = 0x05U   /*!< CAN error state                     */
 
-} HAL_CAN_StateTypeDef;
+} HAL_CAN_StateTypeDef;   //CAN状态
 
 /**
   * @brief  CAN init structure definition
@@ -80,7 +80,7 @@ typedef struct
                                             This parameter must be a number between Min_Data = 1 and Max_Data = 1024. */
 
   uint32_t Mode;                       /*!< Specifies the CAN operating mode.
-                                            This parameter can be a value of @ref CAN_operating_mode */
+                                            This parameter can be a value of @ref CAN_operating_mode */ //CAN工作模式,例如静默、回环等
 
   uint32_t SyncJumpWidth;              /*!< Specifies the maximum number of time quanta the CAN hardware
                                             is allowed to lengthen or shorten a bit to perform resynchronization.
@@ -110,14 +110,14 @@ typedef struct
   FunctionalState TransmitFifoPriority;/*!< Enable or disable the transmit FIFO priority.
                                             This parameter can be set to ENABLE or DISABLE. */
 
-} CAN_InitTypeDef;
+} CAN_InitTypeDef;   //初始化参数结构体
 
 /**
   * @brief  CAN filter configuration structure definition
   */
 typedef struct
 {
-  uint32_t FilterIdHigh;          /*!< Specifies the filter identification number (MSBs for a 32-bit
+  uint32_t FilterIdHigh;          /*!< Specifies the filter identification number (MSBs for a 32-bit   
                                        configuration, first one for a 16-bit configuration).
                                        This parameter must be a number between Min_Data = 0x0000 and Max_Data = 0xFFFF. */
 
@@ -135,32 +135,32 @@ typedef struct
                                        second one for a 16-bit configuration).
                                        This parameter must be a number between Min_Data = 0x0000 and Max_Data = 0xFFFF. */
 
-  uint32_t FilterFIFOAssignment;  /*!< Specifies the FIFO (0 or 1U) which will be assigned to the filter.
+  uint32_t FilterFIFOAssignment;  /*!< Specifies the FIFO (0 or 1U) which will be assigned to the filter.  //被分配到的FIFO
                                        This parameter can be a value of @ref CAN_filter_FIFO */
 
-  uint32_t FilterBank;            /*!< Specifies the filter bank which will be initialized.
+  uint32_t FilterBank;            /*!< Specifies the filter bank which will be initialized.  //表示使用描述的寄存器组号
                                        For single CAN instance(14 dedicated filter banks),
                                        this parameter must be a number between Min_Data = 0 and Max_Data = 13.
                                        For dual CAN instances(28 filter banks shared),
                                        this parameter must be a number between Min_Data = 0 and Max_Data = 27. */
 
   uint32_t FilterMode;            /*!< Specifies the filter mode to be initialized.
-                                       This parameter can be a value of @ref CAN_filter_mode */
+                                       This parameter can be a value of @ref CAN_filter_mode */ //列表模式或掩码模式
 
   uint32_t FilterScale;           /*!< Specifies the filter scale.
-                                       This parameter can be a value of @ref CAN_filter_scale */
+                                       This parameter can be a value of @ref CAN_filter_scale */ //位宽
 
   uint32_t FilterActivation;      /*!< Enable or disable the filter.
                                        This parameter can be set to ENABLE or DISABLE. */
 
-  uint32_t SlaveStartFilterBank;  /*!< Select the start filter bank for the slave CAN instance.
+  uint32_t SlaveStartFilterBank;  /*!< Select the start filter bank for the slave CAN instance.   //单CAN实例下无意义
                                        For single CAN instances, this parameter is meaningless.
                                        For dual CAN instances, all filter banks with lower index are assigned to master
                                        CAN instance, whereas all filter banks with greater index are assigned to slave
                                        CAN instance.
                                        This parameter must be a number between Min_Data = 0 and Max_Data = 27. */
 
-} CAN_FilterTypeDef;
+} CAN_FilterTypeDef;  //描述过滤器组结构体
 
 /**
   * @brief  CAN Tx message header structure definition
@@ -182,13 +182,13 @@ typedef struct
   uint32_t DLC;      /*!< Specifies the length of the frame that will be transmitted.
                           This parameter must be a number between Min_Data = 0 and Max_Data = 8. */
 
-  FunctionalState TransmitGlobalTime; /*!< Specifies whether the timestamp counter value captured on start
+  FunctionalState TransmitGlobalTime; /*!< Specifies whether the timestamp counter value captured on start  //在时间触发通讯模式下表示使能发送时间戳
                           of frame transmission, is sent in DATA6 and DATA7 replacing pData[6] and pData[7].
                           @note: Time Triggered Communication Mode must be enabled.
                           @note: DLC must be programmed as 8 bytes, in order these 2 bytes are sent.
                           This parameter can be set to ENABLE or DISABLE. */
 
-} CAN_TxHeaderTypeDef;
+} CAN_TxHeaderTypeDef;  //描述发送信息的结构体
 
 /**
   * @brief  CAN Rx message header structure definition
@@ -210,21 +210,21 @@ typedef struct
   uint32_t DLC;      /*!< Specifies the length of the frame that will be transmitted.
                           This parameter must be a number between Min_Data = 0 and Max_Data = 8. */
 
-  uint32_t Timestamp; /*!< Specifies the timestamp counter value captured on start of frame reception.
+  uint32_t Timestamp; /*!< Specifies the timestamp counter value captured on start of frame reception. //时间戳
                           @note: Time Triggered Communication Mode must be enabled.
                           This parameter must be a number between Min_Data = 0 and Max_Data = 0xFFFF. */
 
-  uint32_t FilterMatchIndex; /*!< Specifies the index of matching acceptance filter element.
+  uint32_t FilterMatchIndex; /*!< Specifies the index of matching acceptance filter element.   //该消息通过的滤波器编号
                           This parameter must be a number between Min_Data = 0 and Max_Data = 0xFF. */
 
-} CAN_RxHeaderTypeDef;
+} CAN_RxHeaderTypeDef; //接收消息的结构体
 
 /**
   * @brief  CAN handle Structure definition
   */
 typedef struct __CAN_HandleTypeDef
 {
-  CAN_TypeDef                 *Instance;                 /*!< Register base address */
+  CAN_TypeDef                 *Instance;                 /*!< Register base address */  //CAN基地址
 
   CAN_InitTypeDef             Init;                      /*!< CAN required parameters */
 
@@ -233,7 +233,7 @@ typedef struct __CAN_HandleTypeDef
   __IO uint32_t               ErrorCode;                 /*!< CAN Error code.
                                                               This parameter can be a value of @ref CAN_Error_Code */
 
-} CAN_HandleTypeDef;
+} CAN_HandleTypeDef;  //描述CAN的结构体
 
 /**
   * @}
@@ -245,7 +245,7 @@ typedef struct __CAN_HandleTypeDef
   * @{
   */
 
-/** @defgroup CAN_Error_Code CAN Error Code
+/** @defgroup CAN_Error_Code CAN Error Code  //CAN错误码
   * @{
   */
 #define HAL_CAN_ERROR_NONE            (0x00000000U)  /*!< No error                                             */
@@ -276,7 +276,7 @@ typedef struct __CAN_HandleTypeDef
   * @}
   */
 
-/** @defgroup CAN_InitStatus CAN InitStatus
+/** @defgroup CAN_InitStatus CAN InitStatus  //描述初始化结果的宏
   * @{
   */
 #define CAN_INITSTATUS_FAILED       (0x00000000U)  /*!< CAN initialization failed */
@@ -285,7 +285,7 @@ typedef struct __CAN_HandleTypeDef
   * @}
   */
 
-/** @defgroup CAN_operating_mode CAN Operating Mode
+/** @defgroup CAN_operating_mode CAN Operating Mode  //工作模式
   * @{
   */
 #define CAN_MODE_NORMAL             (0x00000000U)                              /*!< Normal mode   */
@@ -346,16 +346,16 @@ typedef struct __CAN_HandleTypeDef
   * @}
   */
 
-/** @defgroup CAN_filter_mode CAN Filter Mode
+/** @defgroup CAN_filter_mode CAN Filter Mode 
   * @{
   */
-#define CAN_FILTERMODE_IDMASK       (0x00000000U)  /*!< Identifier mask mode */
+#define CAN_FILTERMODE_IDMASK       (0x00000000U)  /*!< Identifier mask mode */  //代表两种寄存器模式的宏
 #define CAN_FILTERMODE_IDLIST       (0x00000001U)  /*!< Identifier list mode */
 /**
   * @}
   */
 
-/** @defgroup CAN_filter_scale CAN Filter Scale
+/** @defgroup CAN_filter_scale CAN Filter Scale  //表示寄存器两种位宽的宏
   * @{
   */
 #define CAN_FILTERSCALE_16BIT       (0x00000000U)  /*!< Two 16-bit filters */
@@ -364,16 +364,16 @@ typedef struct __CAN_HandleTypeDef
   * @}
   */
 
-/** @defgroup CAN_filter_FIFO CAN Filter FIFO
+/** @defgroup CAN_filter_FIFO CAN Filter FIFO  
   * @{
   */
-#define CAN_FILTER_FIFO0            (0x00000000U)  /*!< Filter FIFO 0 assignment for filter x */
+#define CAN_FILTER_FIFO0            (0x00000000U)  /*!< Filter FIFO 0 assignment for filter x */  //用于代表过滤器分配到的FIFO的宏
 #define CAN_FILTER_FIFO1            (0x00000001U)  /*!< Filter FIFO 1 assignment for filter x */
 /**
   * @}
   */
 
-/** @defgroup CAN_identifier_type CAN Identifier Type
+/** @defgroup CAN_identifier_type CAN Identifier Type  //表示是标准型信息还是扩展型信息的宏
   * @{
   */
 #define CAN_ID_STD                  (0x00000000U)  /*!< Standard Id */
@@ -382,7 +382,7 @@ typedef struct __CAN_HandleTypeDef
   * @}
   */
 
-/** @defgroup CAN_remote_transmission_request CAN Remote Transmission Request
+/** @defgroup CAN_remote_transmission_request CAN Remote Transmission Request  //表示是遥控帧还是数据帧的宏
   * @{
   */
 #define CAN_RTR_DATA                (0x00000000U)  /*!< Data frame   */
@@ -391,7 +391,7 @@ typedef struct __CAN_HandleTypeDef
   * @}
   */
 
-/** @defgroup CAN_receive_FIFO_number CAN Receive FIFO Number
+/** @defgroup CAN_receive_FIFO_number CAN Receive FIFO Number        //表示接受FIFO的宏
   * @{
   */
 #define CAN_RX_FIFO0                (0x00000000U)  /*!< CAN receive FIFO 0 */
@@ -400,7 +400,7 @@ typedef struct __CAN_HandleTypeDef
   * @}
   */
 
-/** @defgroup CAN_Tx_Mailboxes CAN Tx Mailboxes
+/** @defgroup CAN_Tx_Mailboxes CAN Tx Mailboxes         //表示发送邮箱的宏
   * @{
   */
 #define CAN_TX_MAILBOX0             (0x00000001U)  /*!< Tx Mailbox 0  */
@@ -410,7 +410,7 @@ typedef struct __CAN_HandleTypeDef
   * @}
   */
 
-/** @defgroup CAN_flags CAN Flags
+/** @defgroup CAN_flags CAN Flags        //各种标志位
   * @{
   */
 /* Transmit Flags */
@@ -455,7 +455,7 @@ typedef struct __CAN_HandleTypeDef
   */
 
 
-/** @defgroup CAN_Interrupts CAN Interrupts
+/** @defgroup CAN_Interrupts CAN Interrupts   //中断位
   * @{
   */
 /* Transmit Interrupt */
@@ -496,7 +496,7 @@ typedef struct __CAN_HandleTypeDef
   * @param  __HANDLE__ CAN handle.
   * @retval None
   */
-#define __HAL_CAN_RESET_HANDLE_STATE(__HANDLE__) ((__HANDLE__)->State = HAL_CAN_STATE_RESET)
+#define __HAL_CAN_RESET_HANDLE_STATE(__HANDLE__) ((__HANDLE__)->State = HAL_CAN_STATE_RESET)  //设置为reset状态
 
 /**
   * @brief  Enable the specified CAN interrupts.
@@ -505,7 +505,7 @@ typedef struct __CAN_HandleTypeDef
   *           This parameter can be any combination of @arg CAN_Interrupts
   * @retval None
   */
-#define __HAL_CAN_ENABLE_IT(__HANDLE__, __INTERRUPT__) (((__HANDLE__)->Instance->IER) |= (__INTERRUPT__))
+#define __HAL_CAN_ENABLE_IT(__HANDLE__, __INTERRUPT__) (((__HANDLE__)->Instance->IER) |= (__INTERRUPT__))  //使能中断位
 
 /**
   * @brief  Disable the specified CAN interrupts.
@@ -514,7 +514,7 @@ typedef struct __CAN_HandleTypeDef
   *           This parameter can be any combination of @arg CAN_Interrupts
   * @retval None
   */
-#define __HAL_CAN_DISABLE_IT(__HANDLE__, __INTERRUPT__) (((__HANDLE__)->Instance->IER) &= ~(__INTERRUPT__))
+#define __HAL_CAN_DISABLE_IT(__HANDLE__, __INTERRUPT__) (((__HANDLE__)->Instance->IER) &= ~(__INTERRUPT__)) //失能中断位
 
 /** @brief  Check if the specified CAN interrupt source is enabled or disabled.
   * @param  __HANDLE__ specifies the CAN Handle.
@@ -522,12 +522,12 @@ typedef struct __CAN_HandleTypeDef
   *           This parameter can be a value of @arg CAN_Interrupts
   * @retval The state of __IT__ (TRUE or FALSE).
   */
-#define __HAL_CAN_GET_IT_SOURCE(__HANDLE__, __INTERRUPT__) (((__HANDLE__)->Instance->IER) & (__INTERRUPT__))
+#define __HAL_CAN_GET_IT_SOURCE(__HANDLE__, __INTERRUPT__) (((__HANDLE__)->Instance->IER) & (__INTERRUPT__))  //检查中断位是否被使能
 
 /** @brief  Check whether the specified CAN flag is set or not.
   * @param  __HANDLE__ specifies the CAN Handle.
   * @param  __FLAG__ specifies the flag to check.
-  *         This parameter can be one of @arg CAN_flags
+  *         This parameter can be one of @arg CAN_flags    //检查标志位
   * @retval The state of __FLAG__ (TRUE or FALSE).
   */
 #define __HAL_CAN_GET_FLAG(__HANDLE__, __FLAG__) \
@@ -558,7 +558,7 @@ typedef struct __CAN_HandleTypeDef
   *            @arg CAN_FLAG_FF1:   RX FIFO 1 Full Flag
   *            @arg CAN_FLAG_FOV1:  RX FIFO 1 Overrun Flag
   *            @arg CAN_FLAG_WKUI:  Wake up Interrupt Flag
-  *            @arg CAN_FLAG_SLAKI: Sleep acknowledge Interrupt Flag
+  *            @arg CAN_FLAG_SLAKI: Sleep acknowledge Interrupt Flag  //清除标志位
   * @retval None
   */
 #define __HAL_CAN_CLEAR_FLAG(__HANDLE__, __FLAG__) \
@@ -582,10 +582,10 @@ typedef struct __CAN_HandleTypeDef
  */
 
 /* Initialization and de-initialization functions *****************************/
-HAL_StatusTypeDef HAL_CAN_Init(CAN_HandleTypeDef *hcan);
-HAL_StatusTypeDef HAL_CAN_DeInit(CAN_HandleTypeDef *hcan);
-void HAL_CAN_MspInit(CAN_HandleTypeDef *hcan);
-void HAL_CAN_MspDeInit(CAN_HandleTypeDef *hcan);
+HAL_StatusTypeDef HAL_CAN_Init(CAN_HandleTypeDef *hcan);   //寄存器初始化
+HAL_StatusTypeDef HAL_CAN_DeInit(CAN_HandleTypeDef *hcan); //恢复寄存器标准值
+void HAL_CAN_MspInit(CAN_HandleTypeDef *hcan);     //引脚中断和时钟初始化
+void HAL_CAN_MspDeInit(CAN_HandleTypeDef *hcan);   //引脚中断和时钟恢复默认值
 
 /**
  * @}
@@ -597,7 +597,7 @@ void HAL_CAN_MspDeInit(CAN_HandleTypeDef *hcan);
  */
 
 /* Configuration functions ****************************************************/
-HAL_StatusTypeDef HAL_CAN_ConfigFilter(CAN_HandleTypeDef *hcan, CAN_FilterTypeDef *sFilterConfig);
+HAL_StatusTypeDef HAL_CAN_ConfigFilter(CAN_HandleTypeDef *hcan, CAN_FilterTypeDef *sFilterConfig); //配置过滤器组
 
 /**
  * @}
@@ -608,7 +608,7 @@ HAL_StatusTypeDef HAL_CAN_ConfigFilter(CAN_HandleTypeDef *hcan, CAN_FilterTypeDe
  * @{
  */
 
-/* Control functions **********************************************************/
+/* Control functions **********************************************************/  //控制函数
 HAL_StatusTypeDef HAL_CAN_Start(CAN_HandleTypeDef *hcan);
 HAL_StatusTypeDef HAL_CAN_Stop(CAN_HandleTypeDef *hcan);
 HAL_StatusTypeDef HAL_CAN_RequestSleep(CAN_HandleTypeDef *hcan);
@@ -631,9 +631,9 @@ uint32_t HAL_CAN_GetRxFifoFillLevel(CAN_HandleTypeDef *hcan, uint32_t RxFifo);
  * @{
  */
 /* Interrupts management ******************************************************/
-HAL_StatusTypeDef HAL_CAN_ActivateNotification(CAN_HandleTypeDef *hcan, uint32_t ActiveITs);
+HAL_StatusTypeDef HAL_CAN_ActivateNotification(CAN_HandleTypeDef *hcan, uint32_t ActiveITs);  //使能激活中断
 HAL_StatusTypeDef HAL_CAN_DeactivateNotification(CAN_HandleTypeDef *hcan, uint32_t InactiveITs);
-void HAL_CAN_IRQHandler(CAN_HandleTypeDef *hcan);
+void HAL_CAN_IRQHandler(CAN_HandleTypeDef *hcan);       //总中断处理函数，在中断函数中被调用
 
 /**
  * @}
@@ -643,7 +643,7 @@ void HAL_CAN_IRQHandler(CAN_HandleTypeDef *hcan);
  *  @brief    Callback functions
  * @{
  */
-/* Callbacks functions ********************************************************/
+/* Callbacks functions ********************************************************/ //中断回调函数,便于用户在中断发生后进行自定义操作
 
 void HAL_CAN_TxMailbox0CompleteCallback(CAN_HandleTypeDef *hcan);
 void HAL_CAN_TxMailbox1CompleteCallback(CAN_HandleTypeDef *hcan);
@@ -702,7 +702,7 @@ HAL_StatusTypeDef HAL_CAN_ResetError(CAN_HandleTypeDef *hcan);
 /** @defgroup CAN_Private_Constants CAN Private Constants
   * @{
   */
-#define CAN_FLAG_MASK  (0x000000FFU)
+#define CAN_FLAG_MASK  (0x000000FFU)  
 /**
   * @}
   */

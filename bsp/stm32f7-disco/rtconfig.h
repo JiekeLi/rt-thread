@@ -74,6 +74,7 @@
 #define RT_USING_DEVICE_IPC
 #define RT_PIPE_BUFSZ 512
 #define RT_USING_SERIAL
+#define RT_USING_CAN
 #define RT_USING_PIN
 
 /* Using WiFi */
@@ -150,5 +151,6 @@
 /* example package: hello */
 
 #define BSP_USING_UART1
+#define USING_BXCAN1
 
 #endif

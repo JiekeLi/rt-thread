@@ -11,7 +11,10 @@ if GetDepend('BSP_USING_SDRAM'):
     src = src + ['drv_sdram.c'] 
 
 if GetDepend('RT_USING_SERIAL'):
-    src = src + ['drv_usart.c'] 
+    src = src + ['drv_usart.c']
+
+if GetDepend(['RT_USING_CAN']):
+    src += ['drv_can.c']	
 
 CPPPATH = [cwd]
 

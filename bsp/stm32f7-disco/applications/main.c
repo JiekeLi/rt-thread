@@ -10,10 +10,11 @@
  */
 
 #include <rtthread.h>
+#include "epos4_control.h"
 
 int main(void)
 {
-    /* put user application code here */
+    rt_epos4_control_init();
     return 0;
 }
 

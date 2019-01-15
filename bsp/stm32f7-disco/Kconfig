@@ -49,3 +49,13 @@ config BSP_USING_UART7
     bool "Using uart7"
     select RT_USING_SERIAL
     default n
+	
+if RT_USING_CAN
+config USING_BXCAN1
+    bool "Enable CAN1 RX:PD0 TX:PD1. Do not select HDR."
+    default n
+
+config USING_BXCAN2
+    bool "Enable CAN2 RX:PB12 TX:PB6. Do not select HDR."
+    default n
+endif

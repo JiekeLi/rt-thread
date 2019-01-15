@@ -416,6 +416,7 @@ static rt_err_t drv_configure(struct rt_can_device *dev_can,
     drv_init->TimeSeg1  = BAUD_DATA(BS1, baud_index);
     drv_init->TimeSeg2 		= BAUD_DATA(BS2, baud_index);
     drv_init->Prescaler = BAUD_DATA(RRESCL, baud_index);
+		
     if (HAL_CAN_Init(&drv_can->CanHandle) != HAL_OK)  //设置CAN寄存器
     {
         return RT_ERROR;
@@ -563,9 +564,9 @@ static rt_err_t drv_control(struct rt_can_device *can, int cmd, void *arg)
         break;
     case RT_CAN_CMD_SET_MODE:   //设置CAN模式
         argval = (rt_uint32_t) arg;
-        if (argval != RT_CAN_MODE_NORMAL ||
-            argval != RT_CAN_MODE_LISEN ||
-            argval != RT_CAN_MODE_LOOPBACK ||
+        if (argval != RT_CAN_MODE_NORMAL &&  //源码这里应该是个bug, || 应改为 &&
+            argval != RT_CAN_MODE_LISEN &&
+            argval != RT_CAN_MODE_LOOPBACK &&
             argval != RT_CAN_MODE_LOOPBACKANLISEN)
         {
             return RT_ERROR;
@@ -573,10 +574,30 @@ static rt_err_t drv_control(struct rt_can_device *can, int cmd, void *arg)
         if (argval != can->config.mode)
         {
             can->config.mode = argval;
-            if (HAL_CAN_Init(&drv_can->CanHandle) != HAL_OK) //重新初始化一次
+            CAN_InitTypeDef *drv_init;
+            drv_init = &drv_can->CanHandle.Init;
+					  switch (can->config.mode)
             {
+							case RT_CAN_MODE_NORMAL:
+								drv_init->Mode = CAN_MODE_NORMAL;
+								break;
+							case RT_CAN_MODE_LISEN:
+								drv_init->Mode = CAN_MODE_SILENT;
+								break;
+							case RT_CAN_MODE_LOOPBACK:
+								drv_init->Mode = CAN_MODE_LOOPBACK;
+								break;
+							case RT_CAN_MODE_LOOPBACKANLISEN:
+								drv_init->Mode = CAN_MODE_SILENT_LOOPBACK;
+								break;
+					 }
+					 HAL_CAN_Stop(&drv_can->CanHandle);
+           if (HAL_CAN_Init(&drv_can->CanHandle) != HAL_OK)   //重新初始化一次
+           {
                 return RT_ERROR;
-            }
+           }
+					 HAL_CAN_Start(&drv_can->CanHandle);
+					  
         }
         break;
     case RT_CAN_CMD_SET_BAUD:  //设置波特率
@@ -614,10 +635,12 @@ static rt_err_t drv_control(struct rt_can_device *can, int cmd, void *arg)
             drv_init->TimeSeg2  = BAUD_DATA(BS2, baud_index);
             drv_init->Prescaler = BAUD_DATA(RRESCL, baud_index);
 
+					  HAL_CAN_Stop(&drv_can->CanHandle);
             if (HAL_CAN_Init(&drv_can->CanHandle) != HAL_OK) //重新初始化一次
             {
                 return RT_ERROR;
             }
+						HAL_CAN_Start(&drv_can->CanHandle);
         }
         break;
     case RT_CAN_CMD_SET_PRIV: //设置privmode ??
