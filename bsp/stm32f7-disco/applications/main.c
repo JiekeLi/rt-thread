@@ -10,11 +10,12 @@
  */
 
 #include <rtthread.h>
-#include "epos4_control.h"
+//#include "epos4_control.h"
+#include "epos4_application.h"
 
 int main(void)
 {
-    rt_epos4_control_init();
+    rt_epos4_application_init();
     return 0;
 }
 

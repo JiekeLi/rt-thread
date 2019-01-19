@@ -31,13 +31,13 @@ enum CANBAUD
     CAN100kBaud = 1000UL * 100, /* 100 kBit/sec */
     CAN50kBaud  = 1000UL * 50,  /* 50 kBit/sec  */
     CAN20kBaud  = 1000UL * 20,  /* 20 kBit/sec  */
-    CAN10kBaud  = 1000UL * 10   /* 10 kBit/sec  */
+    CAN10kBaud  = 1000UL * 10   /* 10 kBit/sec  */ //波特率枚举
 };
 
 #define RT_CAN_MODE_NORMAL              0
 #define RT_CAN_MODE_LISEN               1
 #define RT_CAN_MODE_LOOPBACK            2
-#define RT_CAN_MODE_LOOPBACKANLISEN     3
+#define RT_CAN_MODE_LOOPBACKANLISEN     3   //CAN工作模式
 
 #define RT_CAN_MODE_PRIV                0x01
 #define RT_CAN_MODE_NOPRIV              0x00
@@ -54,9 +54,9 @@ struct rt_can_filter_item
     rt_err_t (*ind)(rt_device_t dev, void *args , rt_int32_t hdr, rt_size_t size);
     void *args;
 #endif /*RT_CAN_USING_HDR*/
-};
+};         //描述一个过滤器配置的结构体
 
-#ifdef RT_CAN_USING_HDR
+#ifdef RT_CAN_USING_HDR  //用于初始化滤波器结构体的宏
 #define RT_CAN_FILTER_ITEM_INIT(id,ide,rtr,mode,mask,ind,args) \
      {(id), (ide), (rtr), (mode), (mask), -1, (ind), (args)}
 #define RT_CAN_FILTER_STD_INIT(id,ind,args) \
@@ -94,7 +94,7 @@ struct rt_can_filter_config
     rt_uint32_t count;
     rt_uint32_t actived;
     struct rt_can_filter_item *items;
-};
+};//代表过滤器的结构体
 
 struct can_configure
 {
@@ -108,7 +108,7 @@ struct can_configure
 #ifdef RT_CAN_USING_HDR
     rt_uint32_t maxhdr;
 #endif
-};
+};  //CAN配置信息结构体
 
 #define CANDEFAULTCONFIG \
 {\
@@ -116,27 +116,27 @@ struct can_configure
         RT_CANMSG_BOX_SZ,\
         RT_CANSND_BOX_NUM,\
         RT_CAN_MODE_NORMAL,\
-};
+}; //默认配置宏
 
-struct rt_can_ops;
-#define RT_CAN_CMD_SET_FILTER       0x13
-#define RT_CAN_CMD_SET_BAUD         0x14
-#define RT_CAN_CMD_SET_MODE         0x15
-#define RT_CAN_CMD_SET_PRIV         0x16
-#define RT_CAN_CMD_GET_STATUS       0x17
-#define RT_CAN_CMD_SET_STATUS_IND   0x18
-#define RT_CAN_CMD_SET_BUS_HOOK     0x19
+struct rt_can_ops;   //命令宏
+#define RT_CAN_CMD_SET_FILTER       0x13  //设置过滤器
+#define RT_CAN_CMD_SET_BAUD         0x14  //设置波特率
+#define RT_CAN_CMD_SET_MODE         0x15  //设置模式
+#define RT_CAN_CMD_SET_PRIV         0x16  //？？
+#define RT_CAN_CMD_GET_STATUS       0x17  //得到状态
+#define RT_CAN_CMD_SET_STATUS_IND   0x18  //设置状态改变回调
+#define RT_CAN_CMD_SET_BUS_HOOK     0x19  //设置BUS回调
 
-#define RT_DEVICE_CAN_INT_ERR       0x1000
+#define RT_DEVICE_CAN_INT_ERR       0x1000 
 
-enum RT_CAN_STATUS_MODE
+enum RT_CAN_STATUS_MODE //状态枚举
 {
     NORMAL = 0,
     ERRWARNING = 1,
     ERRPASSIVE = 2,
     BUSOFF = 4,
 };
-enum RT_CAN_BUS_ERR
+enum RT_CAN_BUS_ERR  //错误枚举
 {
     RT_CAN_BUS_NO_ERR = 0,
     RT_CAN_BUS_BIT_PAD_ERR = 1,
@@ -164,7 +164,7 @@ struct rt_can_status
     rt_uint32_t rcvchange;
     rt_uint32_t sndchange;
     rt_uint32_t lasterrtype;
-};
+};//描述状态的结构体
 
 #ifdef RT_CAN_USING_HDR
 struct rt_can_hdr
@@ -207,7 +207,7 @@ struct rt_can_device
 };
 typedef struct rt_can_device *rt_can_t;
 
-#define RT_CAN_STDID 0
+#define RT_CAN_STDID 0  //消息类型宏
 #define RT_CAN_EXTID 1
 #define RT_CAN_DTR   0
 #define RT_CAN_RTR   1
@@ -224,7 +224,7 @@ struct rt_can_msg
     rt_uint32_t hdr : 8;
     rt_uint32_t reserved : 8;
     rt_uint8_t data[8];
-};
+};//信息结构体
 typedef struct rt_can_msg *rt_can_msg_t;
 
 struct rt_can_msg_list
@@ -232,10 +232,10 @@ struct rt_can_msg_list
     struct rt_list_node list;
 #ifdef RT_CAN_USING_HDR
     struct rt_list_node hdrlist;
-    struct rt_can_hdr *owner;
+    struct rt_can_hdr *owner; //对应过滤器
 #endif
     struct rt_can_msg data;
-};
+};//消息链表
 
 struct rt_can_rx_fifo
 {
@@ -244,7 +244,7 @@ struct rt_can_rx_fifo
     rt_uint32_t freenumbers;
     struct rt_list_node freelist;
     struct rt_list_node uselist;
-};
+};//软件FIFO
 
 #define RT_CAN_SND_RESULT_OK        0
 #define RT_CAN_SND_RESULT_ERR       1
@@ -268,7 +268,7 @@ struct rt_can_tx_fifo
     struct rt_can_sndbxinx_list *buffer;
     struct rt_semaphore sem;
     struct rt_list_node freelist;
-};
+};//发送FIFO
 
 struct rt_can_ops
 {
