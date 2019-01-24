@@ -116,16 +116,17 @@ static void creat_operation_mode_msg(rt_can_msg_t epos_msg,rt_uint32_t node_id,r
 
 
 //构造设置cmd和控制模式的消息(RPDO)
-static void creat_set_control_word_msg(rt_can_msg_t epos_msg,rt_uint32_t cob_id,rt_uint16_t op,rt_uint16_t cmd)
+static void creat_set_control_word_msg(rt_can_msg_t epos_msg,rt_uint32_t cob_id,rt_uint8_t op,rt_uint16_t cmd)
 {
 		
-		rt_uint8_t data[4] = {0};
+		//rt_uint8_t data[4] = {0};
+	  rt_uint8_t data[3] = {0};
 		rt_uint16_t control_world = cmd;
 		rt_uint16_t operation_mode = op;
 	  data[0] = control_world & 0x00FF;
     data[1] = ( control_world >> 8 ) & 0x00FF;
-		data[2] = operation_mode & 0x00FF;
-    data[3] = ( operation_mode >> 8 ) & 0x00FF;			
+		data[2] = operation_mode & 0xFF;
+    //data[3] = ( operation_mode >> 8 ) & 0x00FF;			
 		create_rpdo_msg( epos_msg, cob_id, data, sizeof(data) );
 	   
 }
@@ -199,7 +200,7 @@ int set_nmt_state(rt_uint8_t node_id, rt_uint8_t op)
 }
 
 //发送命令和设置工作模式（通过RPDO）
-int send_cmd( rt_uint32_t cob_id, rt_uint16_t op_mode, rt_uint16_t ctlwd)
+int send_cmd( rt_uint32_t cob_id, rt_uint8_t op_mode, rt_uint16_t ctlwd)
 {
 		struct rt_can_msg epos_msg;
 		rt_uint16_t control_world = 0x0000;
@@ -243,7 +244,17 @@ int set_target(rt_uint32_t cob_id, rt_uint8_t target, rt_int32_t val)
 
 
 
+//存储参数
+void storage_parameter(rt_uint32_t node_id)
+{
+		rt_uint8_t data[4]={ 0x73, 0x61, 0x76, 0x65 };
+		struct rt_can_msg epos_msg;
+    
+    creat_sdo_msg(&epos_msg, node_id, SDO_WRITE_OD, 0x1010, 0x01, data, sizeof(data));	
 
+	  rt_device_write(epos4_dev , -1 , (void*)&epos_msg ,sizeof(struct rt_can_msg));						
+		
+}
 
 
 

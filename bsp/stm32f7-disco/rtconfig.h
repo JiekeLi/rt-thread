@@ -151,6 +151,7 @@
 /* example package: hello */
 
 #define BSP_USING_UART1
+#define BSP_USING_UART2
 #define USING_BXCAN1
 
 #endif

@@ -12,10 +12,14 @@
 #include <rtthread.h>
 //#include "epos4_control.h"
 #include "epos4_application.h"
+#include "imu_control.h"
+#include "usart2_app.h"
 
 int main(void)
 {
     rt_epos4_application_init();
+		//imu_control_init();
+	  usart2_application_init();
     return 0;
 }
 

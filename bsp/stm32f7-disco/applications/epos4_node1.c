@@ -28,88 +28,88 @@ static void node1_update(rt_can_msg_t epos_msg)
 						node1.nmt_state = epos_msg->data[0];
 					  switch(node1.nmt_state){
 							case NMT_STA_INI:
-								rt_kprintf("The NMT state is: INI \n");break;
+								rt_kprintf("Node1: The NMT state is: INI \n");break;
 							case NMT_STA_STOP:
-								rt_kprintf("The NMT state is: STOP\n");break;
+								rt_kprintf("Node1: The NMT state is: STOP\n");break;
 							case NMT_STA_OPER:
-								rt_kprintf("The NMT state is: OPER\n");break;
+								rt_kprintf("Node1: The NMT state is: OPER\n");break;
 							case NMT_STA_PRE_OP:
-								rt_kprintf("The NMT state is: PRE_OP\n");break;
+								rt_kprintf("Node1: The NMT state is: PRE_OP\n");break;
 						}							
-						rt_kprintf("The NMT state is: %d\n",node1.nmt_state);
+						rt_kprintf("Node1: The NMT state is: %d\n",node1.nmt_state);
 				}
 				
 				if(epos_msg->id == node1.tpdo_id[3]){    //收到TPDO帧
-						rt_kprintf("Receive a TPDO msg\n");
+						rt_kprintf("Node1: Receive a TPDO msg\n");
 					  node1.status_word = ( epos_msg->data[1]<<8 )| epos_msg->data[0];
-					  node1.operation_mode = ( epos_msg->data[3]<<8 )|epos_msg->data[2];
+					  node1.operation_mode = epos_msg->data[2];//( epos_msg->data[3]<<8 )|epos_msg->data[2];
 					  node1.error_code = ( epos_msg->data[5]<<8 )|epos_msg->data[4];
 					  switch(node1.status_word & DEV_STATE_MSDK){
 							case DEV_STA_NOT_RD_TO_SW_ON:
-								rt_kprintf("The status world is: NOT_RD_TO_SW_ON \n");break;
+								rt_kprintf("Node1: The status world is: NOT_RD_TO_SW_ON \n");break;
 							case DEV_STA_SW_ON_DISABLE:
-								rt_kprintf("The status world is: SW_ON_DISABLE \n");break;
+								rt_kprintf("Node1: The status world is: SW_ON_DISABLE \n");break;
 							case DEV_STA_RD_TO_SW_ON:
-								rt_kprintf("The status world is: RD_TO_SW_ON \n");break;
+								rt_kprintf("Node1: The status world is: RD_TO_SW_ON \n");break;
 							case DEV_STA_SWITCH_ON:
-								rt_kprintf("The status world is: SWITCH_ON \n");break;
+								rt_kprintf("Node1: The status world is: SWITCH_ON \n");break;
 							case DEV_STA_OPER_EN:
-								rt_kprintf("The status world is: OPER_EN \n");break;
+								rt_kprintf("Node1: The status world is: OPER_EN \n");break;
 							case DEV_STA_QK_STOP:
-								rt_kprintf("The status world is: QK_STOP \n");break;
+								rt_kprintf("Node1: The status world is: QK_STOP \n");break;
 							case DEV_STA_FLT_RE_AC:
-								rt_kprintf("The status world is: FLT_RE_AC \n");break;
+								rt_kprintf("Node1: The status world is: FLT_RE_AC \n");break;
 							case DEV_STA_FAULT:
-								rt_kprintf("The status world is:FAULT \n");break;
+								rt_kprintf("Node1: The status world is:FAULT \n");break;
 						}						
-						rt_kprintf("The status world is: %X \n",node1.status_word);
-					  rt_kprintf("The operation mode is: %d \n",node1.operation_mode);
-					  rt_kprintf("The error code is:%X \n",node1.error_code);
+						rt_kprintf("Node1: The status world is: %X \n",node1.status_word);
+					  rt_kprintf("Node1: The operation mode is: %d \n",node1.operation_mode);
+					  rt_kprintf("Node1: The error code is:%X \n",node1.error_code);
 				}
 				
 				if(epos_msg->id == node1.tpdo_id[2] ){    //收到TPDO帧
-						rt_kprintf("Receive a TPDO msg\n");
+						rt_kprintf("Node1: Receive a TPDO msg\n");
 					  node1.status_word = ( epos_msg->data[1]<<8 )| epos_msg->data[0];
 					  node1.operation_mode = ( epos_msg->data[3]<<8 )|epos_msg->data[2];
 					  node1.error_code = ( epos_msg->data[5]<<8 )|epos_msg->data[4];
 					  switch(node1.status_word & DEV_STATE_MSDK){
 							case DEV_STA_NOT_RD_TO_SW_ON:
-								rt_kprintf("The status world is: NOT_RD_TO_SW_ON \n");break;
+								rt_kprintf("Node1: The status world is: NOT_RD_TO_SW_ON \n");break;
 							case DEV_STA_SW_ON_DISABLE:
-								rt_kprintf("The status world is: SW_ON_DISABLE \n");break;
+								rt_kprintf("Node1: The status world is: SW_ON_DISABLE \n");break;
 							case DEV_STA_RD_TO_SW_ON:
-								rt_kprintf("The status world is: RD_TO_SW_ON \n");break;
+								rt_kprintf("Node1: The status world is: RD_TO_SW_ON \n");break;
 							case DEV_STA_SWITCH_ON:
-								rt_kprintf("The status world is: SWITCH_ON \n");break;
+								rt_kprintf("Node1: The status world is: SWITCH_ON \n");break;
 							case DEV_STA_OPER_EN:
-								rt_kprintf("The status world is: OPER_EN \n");break;
+								rt_kprintf("Node1: The status world is: OPER_EN \n");break;
 							case DEV_STA_QK_STOP:
-								rt_kprintf("The status world is: QK_STOP \n");break;
+								rt_kprintf("Node1: The status world is: QK_STOP \n");break;
 							case DEV_STA_FLT_RE_AC:
-								rt_kprintf("The status world is: FLT_RE_AC \n");break;
+								rt_kprintf("Node1: The status world is: FLT_RE_AC \n");break;
 							case DEV_STA_FAULT:
-								rt_kprintf("The status world is:FAULT \n");break;
+								rt_kprintf("Node1: The status world is:FAULT \n");break;
 						}
-					  rt_kprintf("The status world is: %X \n",node1.status_word);
-					  rt_kprintf("The operation mode is: %d \n",node1.operation_mode);
-						rt_kprintf("The error code is:%X \n",node1.error_code);
+					  rt_kprintf("Node1: The status world is: %X \n",node1.status_word);
+					  rt_kprintf("Node1: The operation mode is: %d \n",node1.operation_mode);
+						rt_kprintf("Node1: The error code is:%X \n",node1.error_code);
 				}
 				
 				if(epos_msg->id == node1.sdo_id ){  //收到SDO响应
-						rt_kprintf("Receive a SDO respon\n");
-						rt_kprintf("id:0x%X \r\n",epos_msg->id);
-						rt_kprintf("ide:0x%X \r\n",epos_msg->ide);
-						rt_kprintf("rtr:0x%X \r\n",epos_msg->rtr);
-						rt_kprintf("rlc:0x%X \r\n",epos_msg->len);		  
+						rt_kprintf("Node1: Receive a SDO respon\n");
+						rt_kprintf("Node1: id:0x%X \r\n",epos_msg->id);
+						rt_kprintf("Node1: ide:0x%X \r\n",epos_msg->ide);
+						rt_kprintf("Node1: rtr:0x%X \r\n",epos_msg->rtr);
+						rt_kprintf("Node1: rlc:0x%X \r\n",epos_msg->len);		  
 						for(int i=0;i<8;i++){
-							rt_kprintf("data[%d]: 0x%X \r\n",i,epos_msg->data[i]);
+							rt_kprintf("Node1: data[%d]: 0x%X \r\n",i,epos_msg->data[i]);
 						}
 				}	
 		
 }
 
 //启动函数
-static void node1_start(rt_uint16_t mode)
+static void node1_start(rt_uint8_t mode)
 {
 		node1.operation_mode = mode;
 	
@@ -168,7 +168,7 @@ static void node1_set_target( rt_uint8_t terget, rt_int32_t val)
 }
 
 
-static void node1_set_op_mode(rt_uint16_t op_mode)
+static void node1_set_op_mode(rt_uint8_t op_mode)
 {
 		node1_state_reset();
 	  

@@ -8,6 +8,7 @@
  * 2018-05-17     ZYH          first implementation
  */
 #include "drv_usart.h"
+#include "pcf8574.h"
 #include "board.h"
 #include <rtdevice.h>
 #include <rthw.h>
@@ -268,8 +269,7 @@ void USART2_IRQHandler(void)
     /* leave interrupt */
     rt_interrupt_leave();
 }
-#endif /* BSP_USING_UART7 */
-
+#endif /* BSP_USING_UART2 */
 
 
 
@@ -417,6 +417,11 @@ void HAL_UART_MspInit(UART_HandleTypeDef *uartHandle)
         /* USART2 interrupt Init */
         HAL_NVIC_SetPriority(USART2_IRQn, 5, 0);
         HAL_NVIC_EnableIRQ(USART2_IRQn);
+			
+			
+		    //PCF8574_Init();
+				
+			
     }
 }
 
@@ -506,6 +511,7 @@ int hw_usart_init(void)
     uart->irq = USART1_IRQn;
     serial1.ops    = &drv_uart_ops;
     serial1.config = config;
+	  serial1.config.baud_rate = BAUD_RATE_921600;
     /* register UART1 device */
     rt_hw_serial_register(&serial1, "uart1",
                           RT_DEVICE_FLAG_RDWR | RT_DEVICE_FLAG_INT_RX,
@@ -562,6 +568,7 @@ int hw_usart_init(void)
     uart->irq = USART2_IRQn;
     serial2.ops    = &drv_uart_ops;
     serial2.config = config;
+	  serial2.config.baud_rate = BAUD_RATE_921600;
     /* register UART2 device */
     rt_hw_serial_register(&serial2, "uart2",
                           RT_DEVICE_FLAG_RDWR | RT_DEVICE_FLAG_INT_RX,

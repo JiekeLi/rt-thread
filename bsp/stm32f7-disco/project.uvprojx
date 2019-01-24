@@ -138,7 +138,7 @@
           </Flash1>
           <bUseTDR>1</bUseTDR>
           <Flash2>BIN\UL2CM3.DLL</Flash2>
-          <Flash3>"" ()</Flash3>
+          <Flash3></Flash3>
           <Flash4></Flash4>
           <pFcarmOut></pFcarmOut>
           <pFcarmGrp></pFcarmGrp>
@@ -381,6 +381,16 @@
           <GroupName>Applications</GroupName>
           <Files>
             <File>
+              <FileName>JY901.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>applications\JY901.c</FilePath>
+            </File>
+            <File>
+              <FileName>delay.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>applications\delay.c</FilePath>
+            </File>
+            <File>
               <FileName>epos4_application.c</FileName>
               <FileType>1</FileType>
               <FilePath>applications\epos4_application.c</FilePath>
@@ -396,9 +406,44 @@
               <FilePath>applications\epos4_node1.c</FilePath>
             </File>
             <File>
+              <FileName>epos4_node2.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>applications\epos4_node2.c</FilePath>
+            </File>
+            <File>
+              <FileName>imu_control.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>applications\imu_control.c</FilePath>
+            </File>
+            <File>
               <FileName>main.c</FileName>
               <FileType>1</FileType>
               <FilePath>applications\main.c</FilePath>
+            </File>
+            <File>
+              <FileName>myiic.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>applications\myiic.c</FilePath>
+            </File>
+            <File>
+              <FileName>pcf8574.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>applications\pcf8574.c</FilePath>
+            </File>
+            <File>
+              <FileName>sys.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>applications\sys.c</FilePath>
+            </File>
+            <File>
+              <FileName>rs485.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\applications\rs485.c</FilePath>
+            </File>
+            <File>
+              <FileName>usart2_app.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\applications\usart2_app.c</FilePath>
             </File>
           </Files>
         </Group>

@@ -6,7 +6,7 @@
 int rt_epos4_control_init(void);
 void send_sync(void);
 int set_nmt_state(rt_uint8_t node_id, rt_uint8_t op);
-int send_cmd( rt_uint32_t cob_id, rt_uint16_t op_mode, rt_uint16_t ctlwd);
+int send_cmd( rt_uint32_t cob_id, rt_uint8_t op_mode, rt_uint16_t ctlwd);
 int set_target(rt_uint32_t cob_id, rt_uint8_t target, rt_int32_t val);
 
 extern rt_device_t epos4_dev ; //设备对象指针
@@ -25,20 +25,20 @@ typedef struct{
 		rt_uint16_t control_world;  //控制字
 		rt_uint16_t status_word ;   //状态字
 		rt_uint8_t nmt_state ;    //NMT状态
-		rt_uint16_t operation_mode; //工作模式
+		rt_uint8_t operation_mode; //工作模式
 		rt_int16_t error_code;  //错误码
 		rt_int32_t csp_target;  //位置目标
 		rt_int32_t csv_target;  //速度目标
 		rt_int32_t cst_target;  //力矩目标
 		void(*update)(rt_can_msg_t rcv_msg); //反馈信息接收更新函数              
-	  void(*start)(rt_uint16_t mode);
+	  void(*start)(rt_uint8_t mode);
 	  void(*falut_reset)(void);       //错误复位函数
 	  void(*set_terget)( rt_uint8_t terget, rt_int32_t val);//设置目标函数
 	  void(*nmt_reset)(void);          //NMT复位函数
 		void(*state_reset)(void);      //状态复位函数
 		void(*quick_stop)(void);
 		void(*init)(rt_device_t dev);
-		void(*set_op_mode)(rt_uint16_t mode);
+		void(*set_op_mode)(rt_uint8_t mode);
 } epos4_device;
 
 
