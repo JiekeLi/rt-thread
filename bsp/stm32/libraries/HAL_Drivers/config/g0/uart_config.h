@@ -21,14 +21,16 @@
         .Instance = LPUART1,                                        \
         .irq_type = USART3_4_LPUART1_IRQn,                          \
     }
+#define LPUART1_IRQHandler      USART3_4_LPUART1_IRQHandler
 #endif /* LPUART1_CONFIG */
 #if defined(BSP_LPUART1_RX_USING_DMA)
 #ifndef LPUART1_DMA_CONFIG
 #define LPUART1_DMA_CONFIG                                          \
     {                                                               \
-        .Instance = DMA1_Channel1,                                  \
-        .dma_rcc  = RCC_AHBENR_DMA1EN,                              \
-        .dma_irq  = DMA1_Channel1_IRQn,                             \
+        .Instance = LPUART1_RX_DMA_INSTANCE,                        \
+        .request =  LPUART1_RX_DMA_REQUEST,                         \
+        .dma_rcc  = LPUART1_RX_DMA_RCC,                             \
+        .dma_irq  = LPUART1_RX_DMA_IRQ,                             \
     }
 #endif /* LPUART1_DMA_CONFIG */
 #endif /* BSP_LPUART1_RX_USING_DMA */
@@ -46,14 +48,15 @@
 #endif /* BSP_USING_UART1 */
 
 #if defined(BSP_UART1_RX_USING_DMA)
-#ifndef UART1_DMA_CONFIG
-#define UART1_DMA_CONFIG                                            \
+#ifndef UART1_DMA_RX_CONFIG
+#define UART1_DMA_RX_CONFIG                                            \
     {                                                               \
         .Instance = UART1_RX_DMA_INSTANCE,                          \
+        .request =  UART1_RX_DMA_REQUEST,                           \
         .dma_rcc  = UART1_RX_DMA_RCC,                               \
         .dma_irq  = UART1_RX_DMA_IRQ,                               \
     }
-#endif /* UART1_DMA_CONFIG */
+#endif /* UART1_DMA_RX_CONFIG */
 #endif /* BSP_UART1_RX_USING_DMA */
 
 #if defined(BSP_USING_UART2)
@@ -68,14 +71,15 @@
 #endif /* BSP_USING_UART2 */
 
 #if defined(BSP_UART2_RX_USING_DMA)
-#ifndef UART2_DMA_CONFIG
-#define UART2_DMA_CONFIG                                            \
+#ifndef UART2_DMA_RX_CONFIG
+#define UART2_DMA_RX_CONFIG                                            \
     {                                                               \
         .Instance = UART2_RX_DMA_INSTANCE,                          \
+        .request =  UART2_RX_DMA_REQUEST,                           \
         .dma_rcc  = UART2_RX_DMA_RCC,                               \
         .dma_irq  = UART2_RX_DMA_IRQ,                               \
     }
-#endif /* UART2_DMA_CONFIG */
+#endif /* UART2_DMA_RX_CONFIG */
 #endif /* BSP_UART2_RX_USING_DMA */
 
 #if defined(BSP_USING_UART3)
@@ -99,14 +103,15 @@
 #endif /* BSP_USING_UART3 */
 
 #if defined(BSP_UART3_RX_USING_DMA)
-#ifndef UART3_DMA_CONFIG
-#define UART3_DMA_CONFIG                                            \
+#ifndef UART3_DMA_RX_CONFIG
+#define UART3_DMA_RX_CONFIG                                            \
     {                                                               \
         .Instance = UART3_RX_DMA_INSTANCE,                          \
+        .request =  UART3_RX_DMA_REQUEST,                           \
         .dma_rcc  = UART3_RX_DMA_RCC,                               \
         .dma_irq  = UART3_RX_DMA_IRQ,                               \
     }
-#endif /* UART3_DMA_CONFIG */
+#endif /* UART3_DMA_RX_CONFIG */
 #endif /* BSP_UART3_RX_USING_DMA */
 
 #if defined(BSP_USING_UART4)
@@ -130,14 +135,15 @@
 #endif /* BSP_USING_UART4 */
 
 #if defined(BSP_UART4_RX_USING_DMA)
-#ifndef UART4_DMA_CONFIG
-#define UART4_DMA_CONFIG                                            \
+#ifndef UART4_DMA_RX_CONFIG
+#define UART4_DMA_RX_CONFIG                                            \
     {                                                               \
         .Instance = UART4_RX_DMA_INSTANCE,                          \
+        .request =  UART4_RX_DMA_REQUEST,                           \
         .dma_rcc  = UART4_RX_DMA_RCC,                               \
         .dma_irq  = UART4_RX_DMA_IRQ,                               \
     }
-#endif /* UART4_DMA_CONFIG */
+#endif /* UART4_DMA_RX_CONFIG */
 #endif /* BSP_UART4_RX_USING_DMA */
 
 #if defined(BSP_USING_UART5)
@@ -152,12 +158,12 @@
 #endif /* BSP_USING_UART5 */
 
 #if defined(BSP_UART5_RX_USING_DMA)
-#ifndef UART5_DMA_CONFIG
-#define UART5_DMA_CONFIG                                            \
+#ifndef UART5_DMA_RX_CONFIG
+#define UART5_DMA_RX_CONFIG                                            \
     {                                                               \
         .Instance = DMA_NOT_AVAILABLE,                              \
     }
-#endif /* UART5_DMA_CONFIG */
+#endif /* UART5_DMA_RX_CONFIG */
 #endif /* BSP_UART5_RX_USING_DMA */
 
 #ifdef __cplusplus

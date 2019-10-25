@@ -12,8 +12,8 @@
 
 #ifdef BSP_USING_ON_CHIP_FLASH
 #include "drv_config.h"
-#include "drv_flash.h"    
- 
+#include "drv_flash.h"
+
 #if defined(PKG_USING_FAL)
 #include "fal.h"
 #endif
@@ -53,7 +53,9 @@ static uint32_t GetPage(uint32_t Addr)
 static uint32_t GetBank(uint32_t Addr)
 {
     uint32_t bank = 0;
-
+#ifndef FLASH_BANK_2
+    bank = FLASH_BANK_1;
+#else
     if (READ_BIT(SYSCFG->MEMRMP, SYSCFG_MEMRMP_FB_MODE) == 0)
     {
         /* No Bank swap */
@@ -78,7 +80,7 @@ static uint32_t GetBank(uint32_t Addr)
             bank = FLASH_BANK_1;
         }
     }
-
+#endif
     return bank;
 }
 
@@ -133,7 +135,7 @@ int stm32_flash_write(rt_uint32_t addr, const uint8_t *buf, size_t size)
         LOG_E("ERROR: write outrange flash size! addr is (0x%p)\n", (void*)(addr + size));
         return -RT_EINVAL;
     }
-    
+
     if(addr % 8 != 0)
     {
         LOG_E("write addr must be 8-byte alignment");

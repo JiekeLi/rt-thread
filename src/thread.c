@@ -141,7 +141,7 @@ static rt_err_t _rt_thread_init(struct rt_thread *thread,
                                           (void *)rt_thread_exit);
 #else
     thread->sp = (void *)rt_hw_stack_init(thread->entry, thread->parameter,
-                                          (void *)((char *)thread->stack_addr + thread->stack_size - sizeof(rt_ubase_t)),
+                                          (rt_uint8_t *)((char *)thread->stack_addr + thread->stack_size - sizeof(rt_ubase_t)),
                                           (void *)rt_thread_exit);
 #endif
 
@@ -172,6 +172,7 @@ static rt_err_t _rt_thread_init(struct rt_thread *thread,
     /* lock init */
     thread->scheduler_lock_nest = 0;
     thread->cpus_lock_nest = 0;
+    thread->critical_lock_nest = 0;
 #endif /*RT_USING_SMP*/
 
     /* initialize cleanup function and user data */
@@ -191,7 +192,9 @@ static rt_err_t _rt_thread_init(struct rt_thread *thread,
     thread->sig_mask    = 0x00;
     thread->sig_pending = 0x00;
 
+#ifndef RT_USING_SMP
     thread->sig_ret     = RT_NULL;
+#endif
     thread->sig_vectors = RT_NULL;
     thread->si_list     = RT_NULL;
 #endif
@@ -347,17 +350,17 @@ rt_err_t rt_thread_detach(rt_thread_t thread)
     /* change stat */
     thread->stat = RT_THREAD_CLOSE;
 
-    /* detach object */
-    rt_object_detach((rt_object_t)thread);
-
-    if (thread->cleanup != RT_NULL)
+    if ((rt_object_is_systemobject((rt_object_t)thread) == RT_TRUE) &&
+        thread->cleanup == RT_NULL)
+    {
+        rt_object_detach((rt_object_t)thread);
+    }
+    else
     {
         /* disable interrupt */
         lock = rt_hw_interrupt_disable();
-
         /* insert to defunct thread list */
         rt_list_insert_after(&rt_thread_defunct, &(thread->tlist));
-
         /* enable interrupt */
         rt_hw_interrupt_enable(lock);
     }
@@ -365,7 +368,6 @@ rt_err_t rt_thread_detach(rt_thread_t thread)
     return RT_EOK;
 }
 RTM_EXPORT(rt_thread_detach);
-
 
 #ifdef RT_USING_HEAP
 /**
